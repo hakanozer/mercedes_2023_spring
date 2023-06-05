@@ -8,11 +8,18 @@ import java.util.Map;
 
 public class Util {
 
-    public static ResponseEntity response(boolean status, Object result, HttpStatus httpStatus) {
+    public static ResponseEntity responseFalse( Object result, HttpStatus httpStatus) {
         Map<REnum, Object> hm = new LinkedHashMap<>();
-        hm.put(REnum.status, status);
+        hm.put(REnum.status, false);
         hm.put(REnum.result, result);
         return new ResponseEntity( hm, httpStatus );
+    }
+
+    public static ResponseEntity responseTrue( Object result) {
+        Map<REnum, Object> hm = new LinkedHashMap<>();
+        hm.put(REnum.status, true);
+        hm.put(REnum.result, result);
+        return new ResponseEntity( hm, HttpStatus.OK );
     }
 
 
