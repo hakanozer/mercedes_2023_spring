@@ -28,4 +28,11 @@ public class CustomerRestController {
         return customerService.allCustomer();
     }
 
+    @GetMapping("/get/{stCid}")
+    public ResponseEntity get( @PathVariable String stCid ) {
+        return customerService.get(stCid);
+    }
+
+
+
 }

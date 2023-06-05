@@ -44,6 +44,20 @@ public class CustomerService {
         return Util.responseTrue(allCustomers);
     }
 
+    public ResponseEntity get( String stCid ) {
+        try {
+            Long cid = Long.parseLong(stCid);
+            Optional<Customer> optionalCustomer = customerRepository.findById(cid);
+            if (optionalCustomer.isPresent()) {
+                return Util.responseTrue(optionalCustomer.get());
+            }
+            return Util.responseFalse(Message.getCid, HttpStatus.BAD_REQUEST);
+        }catch (Exception ex) {
+            return Util.responseFalse(ex.getStackTrace()[0].getClassName() + " - " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
 
 
 }
