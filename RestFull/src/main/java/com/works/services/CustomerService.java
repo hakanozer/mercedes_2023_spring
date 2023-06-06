@@ -59,5 +59,11 @@ public class CustomerService {
     }
 
 
+    public ResponseEntity search( String q, String page ) {
+        List<Customer> list = customerRepository.findByNameContainsOrEmailContainsAllIgnoreCase(q,q);
+        return Util.responseTrue(list);
+    }
+
+
 
 }

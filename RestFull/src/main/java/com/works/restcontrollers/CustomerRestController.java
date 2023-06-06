@@ -2,6 +2,7 @@ package com.works.restcontrollers;
 
 import com.works.entities.Customer;
 import com.works.services.CustomerService;
+import com.works.utils.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,14 @@ public class CustomerRestController {
     @GetMapping("/get/{stCid}")
     public ResponseEntity get( @PathVariable String stCid ) {
         return customerService.get(stCid);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity search(
+            @RequestParam(defaultValue = "") String q,
+            @RequestParam(defaultValue = "0") String page
+    ) {
+        return customerService.search(q, page);
     }
 
 
