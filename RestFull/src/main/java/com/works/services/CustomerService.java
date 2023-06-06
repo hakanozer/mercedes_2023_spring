@@ -1,7 +1,9 @@
 package com.works.services;
 
 import com.works.entities.Customer;
+import com.works.entities.dto.CustomerDto;
 import com.works.entities.dto.CustomerLoginDto;
+import com.works.projections.ICustomer;
 import com.works.repositories.CustomerRepository;
 import com.works.utils.Message;
 import com.works.utils.Util;
@@ -45,7 +47,9 @@ public class CustomerService {
 
     public ResponseEntity allCustomer() {
         List<Customer> allCustomers = customerRepository.findAll();
-        return Util.responseTrue(allCustomers);
+        // List<ICustomer> allCustomers = customerRepository.allCustomer();
+        CustomerDto[] arr = modelMapper.map(allCustomers, CustomerDto[].class);
+        return Util.responseTrue(arr);
     }
 
     public ResponseEntity get( String stCid ) {
