@@ -3,10 +3,7 @@ package com.works.restcontrollers;
 import com.works.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/product")
@@ -16,8 +13,11 @@ public class ProductRestController {
     final ProductService productService;
 
     @GetMapping("/list")
-    public ResponseEntity list() {
-        return productService.proCatJoin();
+    public ResponseEntity list(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "pid") String sortSt
+    ) {
+        return productService.proCatJoin(page, sortSt);
     }
 
     @GetMapping("/list/{cid}")

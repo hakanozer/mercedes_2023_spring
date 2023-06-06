@@ -3,6 +3,8 @@ package com.works.repositories;
 import com.works.entities.Customer;
 import com.works.projections.ICustomer;
 import com.works.projections.IProCatJoin;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,7 +20,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findByNameContainsOrEmailContainsAllIgnoreCase(String name, String email);
 
     @Query(value = "select P.PID, P.CID, P.TITLE, p.DETAIL, C.NAME from PUBLIC.PRODUCT as P inner join CATEGORY C on P.CID = C.CID", nativeQuery = true)
-    List<IProCatJoin> allProCat();
+    Page<IProCatJoin> allProCat(Pageable pageable);
+
     @Query(value = "select P.PID, P.CID, P.TITLE, p.DETAIL, C.NAME from PUBLIC.PRODUCT as P inner join CATEGORY C on P.CID = C.CID where C.CID = ?1", nativeQuery = true)
     List<IProCatJoin> allProCatID(Long cid);
 

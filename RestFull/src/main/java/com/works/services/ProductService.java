@@ -6,6 +6,10 @@ import com.works.repositories.CustomerRepository;
 import com.works.repositories.ProJoinCatRepository;
 import com.works.utils.Util;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +22,11 @@ public class ProductService {
     final ProJoinCatRepository proJoinCatRepository;
     final CustomerRepository customerRepository;
 
-    public ResponseEntity proCatJoin() {
+    public ResponseEntity proCatJoin( int page, String sortSt ) {
         //List<ProJoinCat> proJoinCats = proJoinCatRepository.fncProCatJoin();
-        List<IProCatJoin> proJoinCats = customerRepository.allProCat();
+        Sort sort = Sort.by(sortSt).descending();
+        Pageable pageable = PageRequest.of(page, 10, sort);
+        Page<IProCatJoin> proJoinCats = customerRepository.allProCat(pageable);
         return Util.responseTrue(proJoinCats);
     }
 
