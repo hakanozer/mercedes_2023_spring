@@ -73,5 +73,28 @@ public class CustomerService {
     }
 
 
+    // Delete
+    public ResponseEntity delete( Long cid ) {
+        try {
+            customerRepository.deleteById(cid);
+            return Util.responseTrue(cid);
+        }catch (Exception ex) {
+            return Util.responseFalse(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Update
+    public ResponseEntity update( Customer customer ) {
+        if ( customer.getCid() != null ) {
+           Optional<Customer> optionalCustomer = customerRepository.findById( customer.getCid() );
+           if (optionalCustomer.isPresent() ) {
+               customerRepository.saveAndFlush(customer);
+               return Util.responseTrue(customer);
+           }
+        }
+        return Util.responseFalse("Not Found Customer ID :" + customer.getCid(), HttpStatus.BAD_REQUEST);
+    }
+
+
 
 }

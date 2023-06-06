@@ -46,5 +46,14 @@ public class CustomerRestController {
     }
 
 
+    @DeleteMapping("/delete/{cid}")
+    public ResponseEntity delete( @PathVariable Long cid ) {
+        return customerService.delete(cid);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity update( @RequestBody Customer customer ) {
+        return customerService.update(customer);
+    }
 
 }
