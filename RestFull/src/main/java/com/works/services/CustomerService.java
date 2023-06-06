@@ -1,10 +1,12 @@
 package com.works.services;
 
 import com.works.entities.Customer;
+import com.works.entities.dto.CustomerLoginDto;
 import com.works.repositories.CustomerRepository;
 import com.works.utils.Message;
 import com.works.utils.Util;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class CustomerService {
 
     final CustomerRepository customerRepository;
+    final ModelMapper modelMapper = new ModelMapper();
 
     public ResponseEntity register(Customer customer ) {
         Optional<Customer> optionalCustomer = customerRepository.findByEmailEqualsIgnoreCase(customer.getEmail());
@@ -29,7 +32,8 @@ public class CustomerService {
     }
 
 
-    public ResponseEntity login( Customer customer ) {
+    public ResponseEntity login( CustomerLoginDto customerLoginDto ) {
+        Customer customer = modelMapper.map(customerLoginDto, Customer.class);
         Optional<Customer> optionalCustomer = customerRepository.findByEmailEqualsIgnoreCaseAndPasswordEquals(customer.getEmail(), customer.getPassword());
         if ( optionalCustomer.isPresent() ) {
             return Util.responseTrue( optionalCustomer.get() );
