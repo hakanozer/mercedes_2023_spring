@@ -1,6 +1,11 @@
 package com.works.entities;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -10,7 +15,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Data
-public class Customer {
+public class Customer extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,40 +40,5 @@ public class Customer {
     @Column(length = 500)
     private String password;
 
-    @PostLoad
-    public void postLoad() {
-        System.out.println("postLoad Call");
-    }
 
-    @PrePersist
-    public void prePersist() {
-        System.out.println("prePersist Call -1");
-    }
-
-    @PostPersist
-    public void postPersist() {
-        System.out.println("postPersist Call -2");
-    }
-
-
-    @PreRemove
-    public void preRemove() {
-        System.out.println("preRemove Call -1");
-    }
-
-    @PostRemove
-    public void postRemove() {
-        System.out.println("postRemove Call -2");
-    }
-
-
-    @PreUpdate
-    public void preUpdate() {
-        System.out.println("preUpdate Call -1");
-    }
-
-    @PostUpdate
-    public void postUpdate() {
-        System.out.println("postUpdate Call -2");
-    }
 }
