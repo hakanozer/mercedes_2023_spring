@@ -9,12 +9,16 @@ import com.works.utils.Message;
 import com.works.utils.Util;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +26,7 @@ public class CustomerService {
 
     final CustomerRepository customerRepository;
     final ModelMapper modelMapper = new ModelMapper();
+    final CacheManager cacheManager;
 
     public ResponseEntity register(Customer customer ) {
         Optional<Customer> optionalCustomer = customerRepository.findByEmailEqualsIgnoreCase(customer.getEmail());
@@ -29,6 +34,7 @@ public class CustomerService {
             return Util.responseFalse( Message.uniqueEmail, HttpStatus.BAD_REQUEST );
         }else {
             customerRepository.save(customer);
+            cacheManager.getCache("user").clear();
             return Util.responseTrue(customer);
         }
     }
@@ -45,6 +51,7 @@ public class CustomerService {
     }
 
 
+    @Cacheable(value = "user")
     public ResponseEntity allCustomer() {
         List<Customer> allCustomers = customerRepository.findAll();
         // List<ICustomer> allCustomers = customerRepository.allCustomer();
@@ -93,6 +100,12 @@ public class CustomerService {
            }
         }
         return Util.responseFalse("Not Found Customer ID :" + customer.getCid(), HttpStatus.BAD_REQUEST);
+    }
+
+    @Scheduled(fixedDelay = 5000, timeUnit = TimeUnit.MILLISECONDS)
+    public void clearCache() {
+        System.out.println("clearCache Call");
+        cacheManager.getCache("user").clear();
     }
 
 
