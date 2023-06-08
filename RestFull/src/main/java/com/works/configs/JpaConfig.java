@@ -13,8 +13,11 @@ public class JpaConfig implements AuditorAware<String> {
     @Override
     public Optional<String> getCurrentAuditor() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<String> optional = Optional.of(auth.getName());
-        return optional;
+        if ( auth != null ) {
+            Optional<String> optional = Optional.of(auth.getName());
+            return optional;
+        }
+        return Optional.empty();
     }
 
 }
