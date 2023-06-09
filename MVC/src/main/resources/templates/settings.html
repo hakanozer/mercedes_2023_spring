@@ -12,7 +12,29 @@
 <body>
 <div class="container">
     <div th:replace="inc/navbar"></div>
-    <h1>Welcome Settings</h1>
+    <h2>Admins</h2>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">#ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Password</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="item : ${admins}">
+            <th scope="row" th:text="${item.aid}"></th>
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.email}"></td>
+            <td th:text="${item.password}"></td>
+        </tr>
+
+        </tbody>
+    </table>
+
 </div>
 </body>
 </html>
