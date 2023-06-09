@@ -1,5 +1,6 @@
 package com.works.configs;
 
+import com.works.entities.Admin;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.*;
@@ -32,6 +33,8 @@ public class FilterConfig implements Filter {
                 res.sendRedirect("/");
             }else {
                 // oturum var!
+                Admin admin = (Admin) req.getSession().getAttribute("admin");
+                req.setAttribute("admin", admin);
                 filterChain.doFilter(req, res);
             }
         }else {

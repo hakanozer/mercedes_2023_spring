@@ -27,4 +27,10 @@ public class LoginController {
         return "redirect:/";
     }
 
+    @GetMapping("/logout")
+    public String logout() {
+        adminService.logout();
+        return "redirect:/";
+    }
+
 }

@@ -25,4 +25,8 @@ public class AdminService {
         return false;
     }
 
+    public void logout() {
+        req.getSession().removeAttribute("admin");
+    }
+
 }
